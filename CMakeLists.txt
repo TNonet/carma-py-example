@@ -5,6 +5,8 @@ SET(MODNAME "carma_py_example")
 PROJECT(${MODNAME})
 
 ADD_SUBDIRECTORY(external/pybind11)
+
+FIND_PACKAGE(Python3 COMPONENTS Interpreter Development NumPy)
 ADD_SUBDIRECTORY(external/carma)
 # ##############################################################################
 #                                  EXECUTABLE                                  #
