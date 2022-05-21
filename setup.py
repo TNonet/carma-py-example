@@ -24,4 +24,7 @@ setup(
     include_package_data=True,
     extras_require={"test": ["pytest"]},
     python_requires=">=3.6",
+    cmake_args=[
+        f"-DPython3_EXECUTABLE:STRING={sys.executable}"
+    ]
 )
