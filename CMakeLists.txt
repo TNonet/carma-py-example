@@ -5,10 +5,8 @@ SET(MODNAME "carma_py_example")
 PROJECT(${MODNAME})
 
 ADD_SUBDIRECTORY(external/pybind11)
-FIND_PACKAGE(Armadillo REQUIRED)
-FIND_PACKAGE(Python3 COMPONENTS Interpreter Development NumPy REQUIRED)
-ADD_SUBDIRECTORY(external/carma)
-# FIND_PACKAGE(carma CONFIG REQUIRED)
+ADD_SUBDIRECTORY(external/armadillo-code)
+FIND_PACKAGE(carma CONFIG REQUIRED)
 # ##############################################################################
 #                                  EXECUTABLE                                  #
 # ##############################################################################

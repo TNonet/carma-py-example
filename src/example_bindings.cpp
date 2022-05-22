@@ -9,7 +9,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(example_carma, m) {
+PYBIND11_MODULE(carma_py_example, m) {
     bind_ols(m);
     bind_manual_example(m);
     bind_automatic_example(m);
