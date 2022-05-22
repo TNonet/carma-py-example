@@ -1,0 +1,19 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+          os: [macOS-10.15]
+
+    steps:
+      - name: Checkout carma_py_example
+        uses: actions/checkout@v2
+        with:
+          submodules: true
