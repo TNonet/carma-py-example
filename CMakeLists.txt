@@ -5,7 +5,10 @@ SET(MODNAME "carma_py_example")
 PROJECT(${MODNAME})
 
 ADD_SUBDIRECTORY(external/pybind11)
+FIND_PACKAGE(Armadillo REQUIRED)
+FIND_PACKAGE(Python3 COMPONENTS Interpreter Development NumPy REQUIRED)
 ADD_SUBDIRECTORY(external/carma)
+# FIND_PACKAGE(carma CONFIG REQUIRED)
 # ##############################################################################
 #                                  EXECUTABLE                                  #
 # ##############################################################################
@@ -17,7 +20,7 @@ pybind11_add_module(${MODNAME}
         src/manual_conversion.cpp
         src/automatic_conversion.cpp
 )
-TARGET_LINK_LIBRARIES(${MODNAME} PUBLIC carma)
+TARGET_LINK_LIBRARIES(${MODNAME} PUBLIC carma::carma)
 
 TARGET_INCLUDE_DIRECTORIES(${MODNAME}
     PUBLIC
