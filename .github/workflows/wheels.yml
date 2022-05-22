@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-          os: [macOS-10.15, windows-2019, ubuntu-latest]
+          os: [windows-2019]
 
     steps:
       - name: Checkout carma_py_example
@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_SKIP: pp* *-win32 # TODO: Raise carma issue for 32 bit build
+          CIBW_SKIP: pp*
           CIBW_BEFORE_BUILD: cd external/carma && mkdir build  && cd build  && cmake -DCARMA_INSTALL_LIB=ON .. && cmake --build . --config Release --target install
           CIBW_TEST_COMMAND: "python carma_examples.py"
 
