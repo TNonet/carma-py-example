@@ -1,7 +1,7 @@
 """Conversion examples python side."""
 import numpy as np
 
-from src import carma_py_example as carma
+import carma_py_example as carma
 
 sample = np.asarray(
     np.random.random(size=(10, 2)),
@@ -32,3 +32,6 @@ X = np.hstack((
 coeff, std_err = carma.ols(y, X)
 print('coefficients: ', coeff.flatten())
 print('std errors: ', std_err.flatten())
+
+
+print('done')
