@@ -9,6 +9,12 @@ set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 FIND_PACKAGE(Python3 COMPONENTS Interpreter Development.Module NumPy)
 ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/armadillo-code)
+
+if($ENV{CIBUILDWHEEL})
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
+endif()
+
 FIND_PACKAGE(carma CONFIG REQUIRED)
 
 # ##############################################################################
