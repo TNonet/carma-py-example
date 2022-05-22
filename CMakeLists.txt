@@ -6,6 +6,7 @@ PROJECT(${MODNAME})
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
+FIND_PACKAGE(Python3 COMPONENTS Interpreter Development.Module NumPy)
 ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/armadillo-code)
 FIND_PACKAGE(carma CONFIG REQUIRED)
