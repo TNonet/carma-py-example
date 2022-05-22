@@ -20,7 +20,8 @@ pybind11_add_module(${MODNAME}
         src/automatic_conversion.cpp
 )
 
-FIND_PACKAGE(carma CONFIG REQUIRED)
+# FIND_PACKAGE(carma CONFIG REQUIRED)
+ADD_SUBDIRECTORY(external/carma)
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE carma::carma)
 TARGET_LINK_LIBRARIES(${MODNAME} PRIVATE armadillo)
 
