@@ -14,6 +14,15 @@ if($ENV{CIBUILDWHEEL})
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
 endif()
 
+# Add -fPIC for Armadillo (and OpenBLAS if compiled)
+if(NOT MSVC)
+    # clang on Windows does not support -fPIC
+    if(NOT WIN32)
+        target_compile_options(armadillo PRIVATE -fPIC)
+    endif()
+endif()
+
+
 FIND_PACKAGE(carma CONFIG REQUIRED)
 
 # ##############################################################################
