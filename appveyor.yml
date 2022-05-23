@@ -1,0 +1,28 @@
+skip_non_tags: true
+
+environment:
+  matrix:
+    - job_name: "python-x64-macos-mojave"
+      APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+    - job_name: "python-x64-vs2015"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    - job_name: "python37-x64-ubuntu"
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+
+  CIBW_SKIP: pp* *-win32
+  CIBW_BEFORE_BUILD: cd external/carma && mkdir build  && cd build  && cmake -DCARMA_INSTALL_LIB=ON .. && cmake --build . --config Release --target install
+  CIBW_BEFORE_TEST: "pip install pytest numpy"
+  CIBW_TEST_COMMAND: "pytest {package}/tests"
+
+stack: python 3.7
+
+init:
+  - cmd: set PATH=C:\Python37;C:\Python37\Scripts;%PATH%
+
+install:
+  - git submodule update --init --recursive
+  - python -m pip install cibuildwheel==2.5.0
+
+build_script: |
+  cd python
+  python -m cibuildwheel --output-dir wheelhouse
