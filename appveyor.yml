@@ -13,6 +13,7 @@ environment:
   CIBW_BEFORE_BUILD: cd external/carma && mkdir build  && cd build  && cmake -DCARMA_INSTALL_LIB=ON .. && cmake --build . --config Release --target install
   CIBW_BEFORE_TEST: "pip install pytest numpy"
   CIBW_TEST_COMMAND: "pytest {package}/tests"
+  CIBW_BUILD_VERBOSITY: 3
 
 stack: python 3.7
 
