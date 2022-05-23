@@ -32,6 +32,7 @@ jobs:
         env:
           CIBW_SKIP: pp* *-win32
           CIBW_BEFORE_BUILD: cd external/carma && mkdir build  && cd build  && cmake -DCARMA_INSTALL_LIB=ON .. && cmake --build . --config Release --target install
+          CIBW_BEFORE_ALL_LINUX: sudo apt-get install liblapack-dev && sudo apt-get install libblas-dev && sudo apt-get install libboost-dev
           CIBW_BEFORE_TEST: "pip install pytest numpy"
           CIBW_TEST_COMMAND: "pytest {package}/tests"
           CIBW_BUILD_VERBOSITY: 3
