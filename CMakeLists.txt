@@ -10,6 +10,7 @@ ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/armadillo-code)
 
 if($ENV{CIBUILDWHEEL})
+    target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK=true)
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
 endif()
 
