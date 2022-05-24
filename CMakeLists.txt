@@ -10,10 +10,8 @@ ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/armadillo-code)
 
 
-if($ENV{CIBUILDWHEEL})
-    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
-endif()
+target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
+target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
 
 # Add -fPIC for Armadillo (and OpenBLAS if compiled)
 if(NOT MSVC)
