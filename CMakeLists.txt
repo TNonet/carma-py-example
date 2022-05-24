@@ -9,6 +9,7 @@ set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/armadillo-code)
 
+
 if($ENV{CIBUILDWHEEL})
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
@@ -22,8 +23,7 @@ if(NOT MSVC)
     endif()
 endif()
 
-
-FIND_PACKAGE(carma CONFIG REQUIRED)
+ADD_SUBDIRECTORY(external/carma)
 
 # ##############################################################################
 #                                  EXECUTABLE                                  #
