@@ -9,9 +9,9 @@ set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(external/armadillo-code)
 
-
-target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
+if($ENV{CIBUILDWHEEL})
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
+endif()
 
 # Add -fPIC for Armadillo (and OpenBLAS if compiled)
 if(NOT MSVC)
