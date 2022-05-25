@@ -34,9 +34,9 @@ endif()
 #if($ENV{CIBUILDWHEEL})
 #set(ALLOW_OPENBLAS_MACOS ON)
 # target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-target_compile_definitions(${MODNAME} PRIVATE -DALLOW_OPENBLAS_MACOS=true)
-target_compile_definitions(armadillo PRIVATE -DALLOW_OPENBLAS_MACOS=true)
-# target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK)
+target_compile_definitions(${MODNAME} PRIVATE -DOPENBLAS_PROVIDES_LAPACK=true)
+target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK=true)
+#target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK)
 #endif()
 
 TARGET_INCLUDE_DIRECTORIES(${MODNAME}
