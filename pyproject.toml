@@ -4,6 +4,7 @@ requires = [
     "pybind11>=2.9.2",
     "cmake>=3.22",
     "numpy",
+    "scipy",
     "scikit-build>=0.14.1",
 ]
 
