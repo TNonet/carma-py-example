@@ -32,7 +32,7 @@ if(NOT MSVC)
     endif()
 endif()
 
-if(WIN32)
+if(WIN64)
     message(STATUS "Linking precompiled OpenBLAS")
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
     target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK=true)
