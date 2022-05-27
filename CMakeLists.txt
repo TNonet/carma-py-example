@@ -6,8 +6,9 @@ PROJECT(${MODNAME})
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
+SET(ARMADILLO_SUBDIR external/armadillo-code)
 ADD_SUBDIRECTORY(external/pybind11)
-ADD_SUBDIRECTORY(external/armadillo-code)
+ADD_SUBDIRECTORY(${ARMADILLO_SUBDIR})
 ADD_SUBDIRECTORY(external/carma)
 
 # ##############################################################################
@@ -35,13 +36,13 @@ if(WIN32)
     message(STATUS "Linking precompiled OpenBLAS")
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/libopenblas.dll DESTINATION .)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION .)
     add_library(win64_openblas SHARED IMPORTED)
     set_target_properties(win64_openblas PROPERTIES
             IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}"
-            IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/libopenblas.lib")
-    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/")
+            IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.lib")
+    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/")
     target_link_libraries(armadillo PRIVATE win64_openblas)
 endif()
 
