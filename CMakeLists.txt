@@ -31,13 +31,20 @@ if(NOT MSVC)
     endif()
 endif()
 
-#if($ENV{CIBUILDWHEEL})
-#set(ALLOW_OPENBLAS_MACOS ON)
-# target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-target_compile_definitions(${MODNAME} PRIVATE -DOPENBLAS_PROVIDES_LAPACK=true)
-target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK=true)
-#target_compile_definitions(armadillo PRIVATE -DOPENBLAS_PROVIDES_LAPACK)
-#endif()
+if(WIN32)
+    message(STATUS "Linking precompiled OpenBLAS")
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/libopenblas.dll DESTINATION .)
+    add_library(win64_openblas SHARED IMPORTED)
+    set_target_properties(win64_openblas PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}"
+            IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/libopenblas.lib")
+    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/armadillo-code/examples/lib_win64/")
+    target_link_libraries(armadillo PRIVATE win64_openblas)
+endif()
+
 
 TARGET_INCLUDE_DIRECTORIES(${MODNAME}
     PUBLIC
