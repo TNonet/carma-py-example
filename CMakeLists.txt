@@ -7,6 +7,7 @@ PROJECT(${MODNAME})
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
 SET(ARMADILLO_SUBDIR external/armadillo-code)
+
 ADD_SUBDIRECTORY(external/pybind11)
 ADD_SUBDIRECTORY(${ARMADILLO_SUBDIR})
 ADD_SUBDIRECTORY(external/carma)
@@ -23,6 +24,11 @@ pybind11_add_module(${MODNAME}
         src/automatic_conversion.cpp
 )
 TARGET_LINK_LIBRARIES(${MODNAME} PUBLIC carma::carma)
+
+IF (MSVC)
+    find_package(OpenBLAS CONFIG REQUIRED)
+    target_link_libraries(armadillo PRIVATE OpenBLAS::OpenBLAS)
+endif()
 
 # Add -fPIC for Armadillo (and OpenBLAS if compiled)
 if(NOT MSVC)
