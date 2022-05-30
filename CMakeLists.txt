@@ -51,7 +51,7 @@ if(MSVC)
             >
             )
 
-    add_custom_command_if(
+    add_custom_command(
             TARGET ${PROJECT_NAME}
             POST_BUILD
             COMMANDS
