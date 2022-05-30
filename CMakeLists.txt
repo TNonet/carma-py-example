@@ -33,22 +33,41 @@ if(NOT MSVC)
 endif()
 
 if(MSVC)
-    message(STATUS "Linking precompiled OpenBLAS")
-    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
-    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-    target_include_directories(${MODNAME} ${ARMADILLO_SUBDIR}/include)
-#    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-#    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION .)
-    target_link_libraries(${MODNAME} ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll SHARED IMPORTED)
-    target_link_libraries(${MODNAME} ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64)
-    target_link_libraries(armadillo ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64)
-    target_link_libraries(armadillo ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll SHARED IMPORTED)
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/*.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-#    set_target_properties(win64_openblas PROPERTIES
-#            IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}"
-#            IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.lib")
-#    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/")
-#    target_link_libraries(armadillo PRIVATE win64_openblas)
+    target_include_directories(${PROJECT_NAME} PUBLIC
+            "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+            )
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+            "ARMA_USE_LAPACK;"
+            "ARMA_USE_BLAS"
+            )
+
+    target_compile_options(${PROJECT_NAME} PRIVATE
+            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
+            ${DEFAULT_CXX_EXCEPTION_HANDLING}
+            )
+    target_link_options(${PROJECT_NAME} PRIVATE
+            $<$<CONFIG:Debug>:
+            /DEBUG
+            >
+            )
+
+    add_custom_command_if(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMANDS
+            COMMAND $<CONFIG:Debug> copy ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/*.dll $<SHELL_PATH:${OUTPUT_DIRECTORY}>
+            COMMAND $<CONFIG:Release> copy ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/*.dll $<SHELL_PATH:${OUTPUT_DIRECTORY}>
+            COMMENT "Copy .DLL to output directory"
+    )
+
+    set(ADDITIONAL_LIBRARY_DEPENDENCIES
+            "libopenblas"
+            )
+    target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
+
+    target_link_directories(${PROJECT_NAME} PUBLIC
+            "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64"
+            )
 endif()
 
 
