@@ -33,32 +33,16 @@ if(NOT MSVC)
 endif()
 
 if(MSVC)
-    target_include_directories(${PROJECT_NAME} PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/../include"
-            )
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-            "ARMA_USE_LAPACK;"
-            "ARMA_USE_BLAS"
-            )
+    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/")
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
+    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
 
     target_compile_options(${PROJECT_NAME} PRIVATE
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
             )
-    target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-            /DEBUG
-            >
-            )
 
-    add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMANDS
-            COMMAND $<CONFIG:Debug> copy ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/*.dll $<SHELL_PATH:${OUTPUT_DIRECTORY}>
-            COMMAND $<CONFIG:Release> copy ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/*.dll $<SHELL_PATH:${OUTPUT_DIRECTORY}>
-            COMMENT "Copy .DLL to output directory"
-    )
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
             "libopenblas"
@@ -70,6 +54,7 @@ if(MSVC)
             )
 endif()
 
+TARGET_LINK_LIBRARIES(${MODNAME} PUBLIC armadillo)
 
 TARGET_INCLUDE_DIRECTORIES(${MODNAME}
     PUBLIC
