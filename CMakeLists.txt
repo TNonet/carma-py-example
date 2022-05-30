@@ -36,15 +36,19 @@ if(MSVC)
     message(STATUS "Linking precompiled OpenBLAS")
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
     target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-    target_compile_definitions(armadillo PRIVATE -D OPENBLAS_PROVIDES_LAPACK=ON)
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION .)
-    add_library(win64_openblas SHARED IMPORTED)
-    set_target_properties(win64_openblas PROPERTIES
-            IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}"
-            IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.lib")
-    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/")
-    target_link_libraries(armadillo PRIVATE win64_openblas)
+    target_include_directories(${MODNAME} ${ARMADILLO_SUBDIR}/include)
+#    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION .)
+    target_link_libraries(${MODNAME} ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll SHARED IMPORTED)
+    target_link_libraries(${MODNAME} ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64)
+    target_link_libraries(armadillo ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64)
+    target_link_libraries(armadillo ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll SHARED IMPORTED)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/*.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#    set_target_properties(win64_openblas PROPERTIES
+#            IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}"
+#            IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.lib")
+#    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/")
+#    target_link_libraries(armadillo PRIVATE win64_openblas)
 endif()
 
 
