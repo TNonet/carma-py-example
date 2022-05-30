@@ -32,30 +32,6 @@ if(NOT MSVC)
     endif()
 endif()
 
-if(MSVC)
-    target_include_directories(armadillo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/")
-    target_compile_definitions(armadillo PRIVATE -DARMA_USE_BLAS)
-    target_compile_definitions(armadillo PRIVATE -DARMA_USE_LAPACK)
-
-    target_compile_options(${PROJECT_NAME} PRIVATE
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-            )
-
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64/libopenblas.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-            "libopenblas"
-            )
-    target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
-
-    target_link_directories(${PROJECT_NAME} PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/${ARMADILLO_SUBDIR}/examples/lib_win64"
-            )
-endif()
-
-TARGET_LINK_LIBRARIES(${MODNAME} PUBLIC armadillo)
-
 TARGET_INCLUDE_DIRECTORIES(${MODNAME}
     PUBLIC
         $<INSTALL_INTERFACE:include>
