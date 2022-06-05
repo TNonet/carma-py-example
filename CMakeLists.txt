@@ -35,6 +35,8 @@ if(NOT MSVC)
     if(NOT WIN32)
         target_compile_options(armadillo PRIVATE -fPIC)
     endif()
+else ()
+    target_link_libraries(${MODNAME} PUBLIC OpenBLAS)
 endif()
 
 TARGET_INCLUDE_DIRECTORIES(${MODNAME}
