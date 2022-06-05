@@ -7,7 +7,7 @@ PROJECT(${MODNAME})
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "build shared library" FORCE)
 
 IF (MSVC)
-    include(vcpkg/scripts/buildsystems/vcpkg.cmake)
+    SET(CMAKE_TOOLCHAIN_FILE vcpkg/scripts/buildsystems/vcpkg.cmake)
     find_package(OpenBLAS CONFIG REQUIRED)
 endif()
 
