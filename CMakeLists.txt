@@ -2,10 +2,10 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.16)
 
 SET(MODNAME "carma_py_example")
 
-if (MSVC)
-    SET(CMAKE_TOOLCHAIN_FILE vcpkg/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
-    set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
-endif()
+#if (MSVC)
+#    SET(CMAKE_TOOLCHAIN_FILE vcpkg/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
+#    set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
+#endif()
 
 PROJECT(${MODNAME})
 
